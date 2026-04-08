@@ -1,0 +1,14 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "Yjghs8fzAiDO2lMstrZ1o"
+uri = "file://artifacts/wrhwfour-landing/src/assets/hero-bg.jpg"
+type = "image"
+title = "modern server room datacenter dark blue lighting"
+
+[[outputs]]
+id = "JTAFehAq9EmBPP1amfGK3"
+uri = "file://artifacts/wrhwfour-landing/src/assets/office-building.jpg"
+type = "image"
+title = "modern corporate office building exterior glass facade"

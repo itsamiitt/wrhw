@@ -1,41 +1,52 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
 
-function AnimatedCounter({ end, label }: { end: number, label: string }) {
+function AnimatedCounter({ end, suffix, label }: { end: number; suffix?: string; label: string }) {
   const [count, setCount] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const started = useRef(false);
 
   useEffect(() => {
-    let startTimestamp: number;
-    const duration = 1500;
-    
-    const step = (timestamp: number) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      setCount(Math.floor(progress * end));
-      if (progress < 1) {
-        window.requestAnimationFrame(step);
-      }
-    };
-    
-    window.requestAnimationFrame(step);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started.current) {
+          started.current = true;
+          let startTimestamp: number;
+          const duration = 1800;
+          const step = (timestamp: number) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            setCount(Math.floor(eased * end));
+            if (progress < 1) window.requestAnimationFrame(step);
+            else setCount(end);
+          };
+          window.requestAnimationFrame(step);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
   }, [end]);
 
   return (
-    <div className="flex flex-col border-l border-primary/40 pl-4 py-1">
-      <span className="text-2xl md:text-3xl font-bold text-white">
-        {count}{end > 100 || end === 28 ? "+" : ""}
-        {end === 24 ? "/7" : ""}
+    <div ref={ref} className="flex flex-col items-center py-1">
+      <span className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+        {count}{suffix}
       </span>
-      <span className="text-xs text-slate-400 font-medium uppercase tracking-wider">{label}</span>
+      <span className="text-xs text-slate-400 font-medium uppercase tracking-widest mt-1.5">{label}</span>
     </div>
   );
 }
 
 export default function Hero() {
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, -80]);
+  const bgY = useTransform(scrollY, [0, 600], [0, -100]);
+  const contentY = useTransform(scrollY, [0, 600], [0, 40]);
+  const opacity = useTransform(scrollY, [0, 400], [1, 0]);
 
   const scrollToContact = () => {
     document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
@@ -48,135 +59,192 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden bg-slate-950 pt-20"
+      className="relative min-h-screen flex flex-col overflow-hidden bg-[#0a1520]"
     >
-      {/* Background Layering */}
-      <motion.div style={{ y }} className="absolute inset-0 z-0">
+      {/* Background */}
+      <motion.div style={{ y: bgY }} className="absolute inset-0 z-0">
         <div className="absolute inset-0" style={{ background: 'var(--gradient-hero)' }} />
         <img
           src={heroBg}
           alt="Datacenter Background"
-          className="w-full h-full object-cover opacity-20 mix-blend-overlay"
+          className="w-full h-full object-cover opacity-[0.18] mix-blend-luminosity"
         />
-        
-        {/* Animated Grid Mesh */}
-        <div 
-          className="absolute inset-0 z-10 opacity-[0.05]"
+        {/* Perspective grid */}
+        <div
+          className="absolute inset-0 z-10"
           style={{
-            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.5) 1px, transparent 1px)`,
-            backgroundSize: '40px 40px',
-            transform: 'perspective(500px) rotateX(60deg) scale(2) translateY(-100px)'
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)`,
+            backgroundSize: '48px 48px',
+            transform: 'perspective(600px) rotateX(55deg) scale(2.2) translateY(-60px)',
+            transformOrigin: 'center bottom',
+            opacity: 0.9,
           }}
         />
+        {/* Bottom fade for grid */}
+        <div className="absolute bottom-0 left-0 right-0 h-64 z-20 bg-gradient-to-t from-[#0a1520] to-transparent" />
+        {/* Radial vignette */}
+        <div className="absolute inset-0 z-10" style={{ background: 'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, rgba(10,21,32,0.7) 100%)' }} />
       </motion.div>
 
-      {/* Floating Particles */}
-      {[...Array(3)].map((_, i) => (
+      {/* Floating copper particles */}
+      {[
+        { left: '8%', top: '22%', size: 'w-1.5 h-1.5', duration: 12 },
+        { left: '55%', top: '18%', size: 'w-2 h-2', duration: 9 },
+        { left: '88%', top: '35%', size: 'w-1.5 h-1.5', duration: 14 },
+        { left: '25%', top: '65%', size: 'w-1 h-1', duration: 11 },
+        { left: '72%', top: '72%', size: 'w-1.5 h-1.5', duration: 10 },
+      ].map((p, i) => (
         <motion.div
           key={i}
-          animate={{
-            y: ["0%", "-20%", "0%"],
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{
-            duration: 10 + i * 2,
-            repeat: Infinity,
-            ease: "linear",
-            delay: i * 3
-          }}
-          className="absolute w-2 h-2 rounded-full bg-primary z-20 shadow-[0_0_15px_rgba(212,96,26,0.8)]"
-          style={{
-            left: `${20 + i * 30}%`,
-            top: `${30 + i * 20}%`
-          }}
+          animate={{ y: [0, -18, 0], opacity: [0.25, 0.55, 0.25] }}
+          transition={{ duration: p.duration, repeat: Infinity, ease: "easeInOut", delay: i * 1.8 }}
+          className={`absolute ${p.size} rounded-full bg-primary z-20`}
+          style={{ left: p.left, top: p.top, boxShadow: '0 0 12px rgba(212,96,26,0.9), 0 0 32px rgba(212,96,26,0.4)' }}
         />
       ))}
 
-      <div className="container relative z-30 mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-20 md:py-0">
-        <div className="max-w-5xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-          >
-            <span className="inline-block py-1.5 px-4 rounded-full text-white text-xs font-semibold tracking-widest uppercase mb-8 shadow-sm" style={{ background: 'var(--gradient-copper)' }}>
-              Enterprise IT Infrastructure
-            </span>
-          </motion.div>
+      {/* Main content */}
+      <motion.div
+        style={{ y: contentY, opacity }}
+        className="relative z-30 flex-1 flex flex-col"
+      >
+        {/* Hero text — centered in upper 2/3 */}
+        <div className="flex-1 flex items-center">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-8 md:pt-28 md:pb-10">
+            <div className="max-w-5xl mx-auto text-center">
 
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight md:leading-[1.1] mb-6 tracking-tight"
-          >
-            Precision Engineering for <br className="hidden md:block" />
-            <span className="relative inline-block text-transparent bg-clip-text" style={{ backgroundImage: 'var(--gradient-copper)' }}>
-              Corporate IT Ecosystems
-              <motion.span 
-                initial={{ width: 0 }}
-                animate={{ width: "100%" }}
-                transition={{ duration: 0.8, delay: 1, ease: "easeOut" }}
-                className="absolute -bottom-2 left-0 h-[3px] bg-primary rounded-full"
-              />
-            </span>
-          </motion.h1>
+              {/* Badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+                className="mb-8"
+              >
+                <span
+                  className="inline-flex items-center gap-2 py-2 px-5 rounded-full text-white text-xs font-semibold tracking-[0.15em] uppercase shadow-md"
+                  style={{ background: 'var(--gradient-copper)' }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-white/80 animate-pulse" />
+                  Enterprise IT Infrastructure
+                </span>
+              </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-            className="text-lg md:text-xl text-slate-300 mb-12 max-w-2xl mx-auto leading-relaxed font-light"
-          >
-            Delivering robust hardware solutions, pan-India AMCs, and advanced security networking for Fortune 500 standards.
-          </motion.p>
+              {/* Headline */}
+              <motion.h1
+                initial={{ opacity: 0, y: 28 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.75, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+                className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] tracking-tight mb-6"
+              >
+                Precision Engineering for
+                <br />
+                <span className="relative inline-block mt-1">
+                  <span
+                    className="text-transparent bg-clip-text"
+                    style={{ backgroundImage: 'var(--gradient-copper)' }}
+                  >
+                    Corporate IT Ecosystems
+                  </span>
+                  <motion.span
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 0.9, delay: 1.1, ease: [0.25, 0.1, 0.25, 1] }}
+                    className="absolute -bottom-2 left-0 h-[3px] w-full rounded-full origin-left"
+                    style={{ background: 'var(--gradient-copper)' }}
+                  />
+                </span>
+              </motion.h1>
 
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-20"
-          >
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              onClick={scrollToContact}
-              className="w-full sm:w-auto px-8 py-4 text-white rounded font-semibold text-lg transition-all flex items-center justify-center gap-3 group shadow-[var(--shadow-copper-glow)]"
-              style={{ background: 'var(--gradient-copper)' }}
-            >
-              Request a Consultation
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              onClick={scrollToServices}
-              className="w-full sm:w-auto px-8 py-4 bg-white/5 text-white border border-white/10 rounded font-semibold text-lg hover:bg-white/10 transition-all backdrop-blur-md"
-            >
-              Explore Services
-            </motion.button>
-          </motion.div>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-4xl mx-auto bg-white/5 backdrop-blur-xl border border-white/10 p-6 md:p-8 rounded-xl"
-          >
-            <AnimatedCounter end={500} label="Clients" />
-            <AnimatedCounter end={28} label="States" />
-            <AnimatedCounter end={24} label="Support" />
-            <AnimatedCounter end={6} label="Years Exp." />
-          </motion.div>
+              {/* Subheading */}
+              <motion.p
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
+                className="text-lg md:text-xl text-slate-300/90 mb-10 max-w-2xl mx-auto leading-relaxed font-light"
+              >
+                Delivering robust hardware solutions, pan-India AMCs, and advanced
+                security networking for Fortune 500 standards.
+              </motion.p>
+
+              {/* CTAs */}
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+                className="flex flex-col sm:flex-row items-center justify-center gap-4"
+              >
+                <motion.button
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.15 }}
+                  onClick={scrollToContact}
+                  className="w-full sm:w-auto px-10 py-4 text-white rounded-md font-semibold text-lg transition-all flex items-center justify-center gap-3 group"
+                  style={{
+                    background: 'var(--gradient-copper)',
+                    boxShadow: 'var(--shadow-copper-glow)',
+                  }}
+                >
+                  Request a Consultation
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.15 }}
+                  onClick={scrollToServices}
+                  className="w-full sm:w-auto px-10 py-4 bg-white/[0.06] text-white border border-white/[0.12] rounded-md font-semibold text-lg hover:bg-white/[0.1] transition-all backdrop-blur-sm"
+                >
+                  Explore Services
+                </motion.button>
+              </motion.div>
+
+            </div>
+          </div>
         </div>
-      </div>
 
+        {/* Stats bar — anchored to bottom */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.85, ease: [0.25, 0.1, 0.25, 1] }}
+          className="container mx-auto px-4 sm:px-6 lg:px-8 pb-20"
+        >
+          <div
+            className="grid grid-cols-2 md:grid-cols-4 gap-0 max-w-3xl mx-auto rounded-2xl overflow-hidden"
+            style={{
+              background: 'rgba(255,255,255,0.07)',
+              backdropFilter: 'blur(24px)',
+              border: '1px solid rgba(255,255,255,0.13)',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.35)',
+            }}
+          >
+            {[
+              { end: 500, suffix: '+', label: 'Corporate Clients' },
+              { end: 28, suffix: '+', label: 'States Covered' },
+              { end: 24, suffix: '/7', label: 'Support' },
+              { end: 6, suffix: '+', label: 'Years of Expertise' },
+            ].map((stat, i) => (
+              <div
+                key={i}
+                className={`flex flex-col items-center py-7 px-4 ${i > 0 ? 'border-l border-white/[0.08]' : ''}`}
+              >
+                <AnimatedCounter end={stat.end} suffix={stat.suffix} label={stat.label} />
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </motion.div>
+
+      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 cursor-pointer text-white/40 hover:text-white transition-colors"
+        transition={{ delay: 2, duration: 1 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 cursor-pointer group"
         onClick={scrollToServices}
       >
-        <ChevronDown className="w-8 h-8 animate-bounce" />
+        <span className="text-[10px] text-slate-500 font-medium tracking-[0.2em] uppercase group-hover:text-slate-300 transition-colors">Scroll</span>
+        <ChevronDown className="w-5 h-5 text-slate-500 group-hover:text-slate-300 transition-colors animate-bounce" />
       </motion.div>
     </section>
   );

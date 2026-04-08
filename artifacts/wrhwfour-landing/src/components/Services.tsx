@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Server, Monitor, Network, Fingerprint, Shield, Wrench, HardDrive } from "lucide-react";
+import { Server, Monitor, Network, Fingerprint, Shield, Wrench, HardDrive, ArrowRight } from "lucide-react";
 
 const services = [
   {
@@ -43,71 +43,113 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1 },
+    transition: { staggerChildren: 0.08 },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.25, 0.1, 0.25, 1] } },
 };
 
 export default function Services() {
   return (
-    <section id="services" className="py-24 bg-gray-50">
+    <section id="services" className="py-32 relative">
+      {/* Noise background overlay */}
+      <div className="absolute inset-0 bg-[#F7F8FA] -z-20" />
+      <div 
+        className="absolute inset-0 -z-10 opacity-[0.02] pointer-events-none mix-blend-overlay"
+        style={{ backgroundImage: 'var(--noise-texture)' }}
+      />
+
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-sm font-bold tracking-widest text-primary uppercase mb-3">Our Expertise</h2>
-          <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Comprehensive IT Capabilities</h3>
-          <p className="text-lg text-muted-foreground">
-            We deliver the critical infrastructure required to keep modern enterprises agile, secure, and operational.
-          </p>
+        <div className="max-w-3xl mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.65, ease: [0.25, 0.1, 0.25, 1] }}
+          >
+            <h2 className="text-sm font-bold tracking-[0.1em] text-primary uppercase mb-4">Our Expertise</h2>
+            <h3 className="text-4xl md:text-5xl font-bold text-foreground mb-6 tracking-tight">Comprehensive IT Capabilities</h3>
+            <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl">
+              We deliver the critical infrastructure required to keep modern enterprises agile, secure, and operational.
+            </p>
+          </motion.div>
         </div>
 
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+          viewport={{ once: true, margin: "-80px" }}
+          className="flex flex-col max-w-5xl"
         >
           {services.map((service, index) => {
             const Icon = service.icon;
+            const number = (index + 1).toString().padStart(2, "0");
+            
             return (
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className="bg-white p-8 rounded-xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-primary/20 transition-all duration-300 group"
+                className="group relative flex flex-col md:flex-row gap-6 md:gap-12 items-start md:items-center py-10 border-b border-gray-200 transition-colors"
               >
-                <div className="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-300 text-primary">
-                  <Icon size={28} strokeWidth={1.5} />
+                {/* Hover accent line */}
+                <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-primary scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-top" />
+                
+                <div className="flex items-center gap-8 md:w-1/3 shrink-0 md:pl-8">
+                  <span className="text-5xl md:text-6xl font-bold text-transparent" style={{ WebkitTextStroke: '1px var(--color-secondary)', transition: 'all 0.3s' }}>
+                    <span className="group-hover:text-primary group-hover:[-webkit-text-stroke:0px] transition-all duration-300">
+                      {number}
+                    </span>
+                  </span>
+                  <div className="w-12 h-12 bg-white shadow-sm rounded-lg flex items-center justify-center text-secondary group-hover:text-primary transition-colors">
+                    <Icon size={24} strokeWidth={1.5} />
+                  </div>
                 </div>
-                <h4 className="text-xl font-bold text-foreground mb-3">{service.title}</h4>
-                <p className="text-muted-foreground leading-relaxed text-sm">
-                  {service.description}
-                </p>
+                
+                <div className="md:w-2/3">
+                  <h4 className="text-2xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">{service.title}</h4>
+                  <p className="text-lg text-muted-foreground leading-relaxed">
+                    {service.description}
+                  </p>
+                </div>
               </motion.div>
             );
           })}
-
-          <motion.div
-            variants={itemVariants}
-            className="bg-gradient-to-br from-secondary to-slate-800 p-8 rounded-xl border border-slate-700 shadow-sm flex flex-col justify-center items-center text-center group relative overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-primary/10 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out" />
-            <h4 className="text-2xl font-bold text-white mb-4 relative z-10">Need a Custom Solution?</h4>
-            <p className="text-slate-300 mb-6 text-sm relative z-10">
-              We build tailored IT setups for specialized corporate needs.
-            </p>
-            <button
-              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-              className="px-6 py-2 bg-primary text-white rounded-md font-medium hover:bg-white hover:text-primary transition-colors relative z-10"
-            >
-              Contact Us
-            </button>
-          </motion.div>
         </motion.div>
       </div>
+
+      {/* Full-width banded section */}
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.65, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+        className="mt-32 border-y border-white/10"
+        style={{ background: 'var(--gradient-section-dark)' }}
+      >
+        <div className="absolute left-0 right-0 h-[2px] bg-primary top-0" />
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 py-20">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-10">
+            <div>
+              <h4 className="text-3xl font-bold text-white mb-4">Need a Custom Solution?</h4>
+              <p className="text-slate-400 text-lg max-w-xl leading-relaxed">
+                We build tailored IT setups for specialized corporate needs. Our engineering team is ready to design a robust architecture for your next facility.
+              </p>
+            </div>
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+              className="shrink-0 px-8 py-4 bg-white text-primary rounded font-semibold text-lg hover:bg-gray-50 transition-all flex items-center gap-3 shadow-lg"
+            >
+              Contact Engineering Team
+              <ArrowRight className="w-5 h-5" />
+            </motion.button>
+          </div>
+        </div>
+      </motion.div>
     </section>
   );
 }

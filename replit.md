@@ -19,12 +19,27 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 ## Artifacts
 
 ### WRHWFOUR Landing Page (`artifacts/wrhwfour-landing/`)
-- **Type**: React + Vite frontend-only (no backend)
+- **Type**: React + Vite frontend-only (no backend), wouter routing
 - **Preview Path**: `/`
-- **Brand Colors**: Steel gray (#3D4E5C) and copper/burnt orange (#C8743A)
-- **Sections**: Hero, Services, About/Stats, Why Choose Us, Testimonials, Coverage, Contact, Footer
+- **Brand Colors**: Deep navy (#0B1520) and copper/burnt orange primary
+- **Home Page Sections**: Hero, Services, About/Stats, Why Choose Us, Testimonials, Coverage, Contact, Footer
 - **Features**: Framer Motion animations, WhatsApp floating button, responsive design, SEO meta tags
 - **Assets**: Logo files from `attached_assets/` via `@assets` Vite alias
+- **Shared Components**: `Navbar.tsx` (home, scroll+link hybrid), `PageNavbar.tsx` (inner pages), `PageLayout.tsx` (inner page wrapper), `Footer.tsx` (with legal links)
+
+#### Pages & Routes
+| Route | Page | Description |
+|-------|------|-------------|
+| `/` | Home | Full landing page with all sections |
+| `/about` | AboutPage | Company history, mission, values, team |
+| `/why-choose-us` | WhyChooseUsPage | 6 pillars, differentiators, comparison table |
+| `/coverage` | CoveragePage | 4 regional zones, SLA table, delivery model |
+| `/contact` | ContactPage | Contact form, office details, FAQ |
+| `/privacy-policy` | PrivacyPolicyPage | Full GDPR-aligned privacy policy |
+| `/terms-conditions` | TermsConditionsPage | B2B terms covering payment, delivery, IP |
+| `/refund-policy` | RefundPolicyPage | Hardware, installation & AMC refund rules |
+| `/service-policy` | ServicePolicyPage | Service delivery standards & SLAs |
+| `/disclaimer` | DisclaimerPage | Website & content disclaimer |
 
 ## Key Commands
 

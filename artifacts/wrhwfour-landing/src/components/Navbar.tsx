@@ -4,6 +4,14 @@ import { Menu, X } from "lucide-react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import lightLogo from "@assets/WRHW_logo_1775607098102.png";
 
+const navLinks = [
+  { name: "Services", type: "scroll", id: "services" },
+  { name: "About Us", type: "link", href: "/about" },
+  { name: "Why Us", type: "link", href: "/why-choose-us" },
+  { name: "Coverage", type: "link", href: "/coverage" },
+  { name: "Contact", type: "link", href: "/contact" },
+];
+
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -30,14 +38,6 @@ export default function Navbar() {
     }
   };
 
-  const navLinks = [
-    { name: "Services", id: "services" },
-    { name: "About Us", id: "about" },
-    { name: "Why Us", id: "why-us" },
-    { name: "Coverage", id: "coverage" },
-    { name: "Contact", id: "contact" },
-  ];
-
   return (
     <>
       <motion.div
@@ -63,32 +63,49 @@ export default function Navbar() {
 
             {/* Desktop Nav */}
             <div className="hidden md:flex items-center space-x-8">
-              {navLinks.map((link) => (
-                <button
-                  key={link.name}
-                  onClick={() => scrollToSection(link.id)}
-                  className={`text-sm font-medium tracking-[0.02em] transition-colors font-sans ${
-                    isScrolled
-                      ? "text-secondary hover:text-primary"
-                      : "text-white/90 hover:text-white"
-                  }`}
-                >
-                  {link.name}
-                </button>
-              ))}
-              <motion.button
+              {navLinks.map((link) =>
+                link.type === "scroll" ? (
+                  <button
+                    key={link.name}
+                    onClick={() => scrollToSection(link.id!)}
+                    className={`text-sm font-medium tracking-[0.02em] transition-colors font-sans ${
+                      isScrolled
+                        ? "text-secondary hover:text-primary"
+                        : "text-white/90 hover:text-white"
+                    }`}
+                  >
+                    {link.name}
+                  </button>
+                ) : (
+                  <Link
+                    key={link.name}
+                    href={link.href!}
+                    className={`text-sm font-medium tracking-[0.02em] transition-colors font-sans ${
+                      isScrolled
+                        ? "text-secondary hover:text-primary"
+                        : "text-white/90 hover:text-white"
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                )
+              )}
+              <motion.div
                 whileHover={{ y: -0.5 }}
                 transition={{ duration: 0.2 }}
-                onClick={() => scrollToSection("contact")}
-                className={`px-6 py-2.5 rounded text-sm font-medium tracking-wide transition-all ${
-                  isScrolled
-                    ? "bg-[var(--gradient-copper)] text-white shadow-[var(--shadow-copper-glow)] hover:opacity-90"
-                    : "bg-white text-primary hover:bg-gray-50 shadow-md"
-                }`}
-                style={isScrolled ? { backgroundImage: 'var(--gradient-copper)' } : {}}
               >
-                Get a Quote
-              </motion.button>
+                <Link
+                  href="/contact"
+                  className={`px-6 py-2.5 rounded text-sm font-medium tracking-wide transition-all block ${
+                    isScrolled
+                      ? "text-white shadow-[var(--shadow-copper-glow)] hover:opacity-90"
+                      : "bg-white text-primary hover:bg-gray-50 shadow-md"
+                  }`}
+                  style={isScrolled ? { backgroundImage: 'var(--gradient-copper)' } : {}}
+                >
+                  Get a Quote
+                </Link>
+              </motion.div>
             </div>
 
             {/* Mobile Menu Toggle */}
@@ -108,23 +125,35 @@ export default function Navbar() {
         {/* Mobile Nav */}
         {isMobileMenuOpen && (
           <div className="absolute top-full left-0 right-0 bg-white border-t border-gray-100 shadow-xl py-4 px-4 flex flex-col space-y-2 md:hidden">
-            {navLinks.map((link) => (
-              <button
-                key={link.name}
-                onClick={() => scrollToSection(link.id)}
-                className="text-left text-foreground font-medium text-lg py-3 px-4 rounded-md hover:bg-gray-50 transition-colors"
-              >
-                {link.name}
-              </button>
-            ))}
+            {navLinks.map((link) =>
+              link.type === "scroll" ? (
+                <button
+                  key={link.name}
+                  onClick={() => scrollToSection(link.id!)}
+                  className="text-left text-foreground font-medium text-lg py-3 px-4 rounded-md hover:bg-gray-50 transition-colors"
+                >
+                  {link.name}
+                </button>
+              ) : (
+                <Link
+                  key={link.name}
+                  href={link.href!}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-left text-foreground font-medium text-lg py-3 px-4 rounded-md hover:bg-gray-50 transition-colors block"
+                >
+                  {link.name}
+                </Link>
+              )
+            )}
             <div className="pt-2 mt-2 border-t border-gray-100">
-              <button
-                onClick={() => scrollToSection("contact")}
-                className="w-full py-3 rounded-md bg-[var(--gradient-copper)] text-white font-medium shadow-md text-center"
+              <Link
+                href="/contact"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="w-full py-3 rounded-md text-white font-medium shadow-md text-center block"
                 style={{ backgroundImage: 'var(--gradient-copper)' }}
               >
                 Get a Quote
-              </button>
+              </Link>
             </div>
           </div>
         )}

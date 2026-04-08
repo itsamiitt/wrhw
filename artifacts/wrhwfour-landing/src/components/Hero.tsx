@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronDown } from "lucide-react";
-import darkLogo from "@assets/WRHW_logo_blue_1775607098105.png";
 import heroBg from "@/assets/hero-bg.jpg";
 
 export default function Hero() {
@@ -40,15 +39,6 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mb-8 flex justify-center"
-          >
-            <img src={darkLogo} alt="WRHWFOUR Logo" className="h-16 md:h-24 object-contain" />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
           >
             <span className="inline-block py-1 px-3 rounded-full bg-white/10 text-primary-foreground border border-white/20 text-sm font-medium tracking-wider uppercase mb-6 backdrop-blur-sm">
@@ -85,7 +75,7 @@ export default function Hero() {
           >
             <button
               onClick={scrollToContact}
-              className="w-full sm:w-auto px-8 py-4 bg-primary text-white rounded-md font-semibold text-lg hover:bg-primary/90 transition-all shadow-[0_0_20px_rgba(200,116,58,0.4)] hover:shadow-[0_0_30px_rgba(200,116,58,0.6)] hover:-translate-y-1 flex items-center justify-center gap-2 group"
+              className="w-full sm:w-auto px-8 py-4 bg-primary text-white rounded-md font-semibold text-lg hover:bg-primary/90 transition-all shadow-[0_0_20px_hsl(22_78%_46%/0.45)] hover:shadow-[0_0_32px_hsl(22_78%_46%/0.65)] hover:-translate-y-1 flex items-center justify-center gap-2 group"
             >
               Request a Consultation
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

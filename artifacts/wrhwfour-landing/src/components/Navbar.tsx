@@ -45,7 +45,7 @@ export default function Navbar() {
             <img
               src={lightLogo}
               alt="WRHWFOUR Logo"
-              className={`transition-all duration-300 ${isScrolled ? "h-8" : "h-10 md:h-12 brightness-0 invert"}`}
+              className={`transition-all duration-300 ${isScrolled ? "h-12" : "h-14 md:h-16 brightness-0 invert"}`}
             />
           </button>
 
@@ -68,7 +68,7 @@ export default function Navbar() {
               onClick={() => scrollToSection("contact")}
               className={`px-5 py-2.5 rounded-md text-sm font-medium transition-all ${
                 isScrolled
-                  ? "bg-primary text-white hover:bg-primary/90 shadow-[0_4px_14px_0_hsl(25_55%_50%/0.39)] hover:shadow-[0_6px_20px_rgba(200,116,58,0.23)] hover:-translate-y-0.5"
+                  ? "bg-primary text-white hover:bg-primary/90 shadow-[0_4px_14px_0_hsl(22_78%_46%/0.40)] hover:shadow-[0_6px_20px_hsl(22_78%_46%/0.30)] hover:-translate-y-0.5"
                   : "bg-white text-primary hover:bg-gray-50"
               }`}
             >

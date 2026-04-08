@@ -57,7 +57,7 @@ export default function ContactPage() {
   return (
     <PageLayout title="Contact Us">
       {/* Hero */}
-      <section className="bg-[#0B1520] py-24 relative overflow-hidden">
+      <section className="bg-[#0B1520] py-14 md:py-24 relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-20"
           style={{ backgroundImage: "radial-gradient(circle at 60% 50%, hsl(22 78% 46% / 0.4) 0%, transparent 60%)" }}
@@ -65,11 +65,11 @@ export default function ContactPage() {
         <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
         <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
           <motion.div {...fadeUp} className="max-w-3xl">
-            <p className="text-primary text-sm font-bold tracking-[0.15em] uppercase mb-4">Get in Touch</p>
-            <h1 className="text-5xl md:text-6xl font-bold text-white leading-[1.1] tracking-tight mb-6">
+            <p className="text-primary text-sm font-bold tracking-[0.15em] uppercase mb-3 md:mb-4">Get in Touch</p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1] tracking-tight mb-4 md:mb-6">
               Contact <span className="text-primary">WRHWFOUR</span>
             </h1>
-            <p className="text-slate-300 text-xl font-light leading-relaxed">
+            <p className="text-slate-300 text-base md:text-xl font-light leading-relaxed">
               Whether you need a quote, technical consultation, or want to discuss an AMC agreement — our team is ready to respond promptly and professionally.
             </p>
           </motion.div>
@@ -77,17 +77,17 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Form + Details */}
-      <section className="py-24 bg-[#FAFAF8]">
+      <section className="py-16 md:py-24 bg-[#FAFAF8]">
         <div className="container mx-auto px-4 md:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-16">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-16">
             {/* Contact Info */}
-            <motion.div {...fadeUp} className="lg:col-span-2 space-y-8">
+            <motion.div {...fadeUp} className="lg:col-span-2 space-y-6 md:space-y-8">
               <div>
                 <p className="text-primary text-sm font-bold tracking-[0.15em] uppercase mb-3">Contact Details</p>
-                <h2 className="text-3xl font-bold text-foreground leading-tight mb-6">
+                <h2 className="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4 md:mb-6">
                   We're Here to Help
                 </h2>
-                <p className="text-muted-foreground font-light leading-relaxed">
+                <p className="text-muted-foreground font-light leading-relaxed text-sm md:text-base">
                   Reach out through any of the channels below. For urgent IT support, existing AMC clients should use the dedicated support line included in their contract documentation.
                 </p>
               </div>
@@ -101,24 +101,24 @@ export default function ContactPage() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true, margin: "-40px" }}
                     transition={{ duration: 0.5, delay: i * 0.1 }}
-                    className="flex gap-5"
+                    className="flex gap-4 md:gap-5"
                   >
-                    <div className="w-12 h-12 rounded bg-primary/10 flex items-center justify-center shrink-0">
-                      <Icon className="text-primary" size={20} />
+                    <div className="w-11 h-11 md:w-12 md:h-12 rounded bg-primary/10 flex items-center justify-center shrink-0">
+                      <Icon className="text-primary" size={18} />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground mb-2">{c.title}</h3>
+                      <h3 className="font-semibold text-foreground mb-1.5 md:mb-2 text-sm md:text-base">{c.title}</h3>
                       {c.lines.map((line, j) => (
-                        <p key={j} className="text-muted-foreground text-sm font-light">{line}</p>
+                        <p key={j} className="text-muted-foreground text-xs md:text-sm font-light">{line}</p>
                       ))}
                     </div>
                   </motion.div>
                 );
               })}
 
-              <div className="bg-[#0B1520] p-6 rounded mt-4">
+              <div className="bg-[#0B1520] p-5 md:p-6 rounded">
                 <p className="text-primary text-xs font-bold uppercase tracking-widest mb-2">Company Information</p>
-                <p className="text-slate-300 text-sm font-light leading-relaxed">
+                <p className="text-slate-300 text-xs md:text-sm font-light leading-relaxed">
                   <strong className="text-white font-semibold">WRHWFOUR Private Limited</strong><br />
                   CIN: U46491PN2024PTC232130<br />
                   GST: Available on request<br />
@@ -135,25 +135,25 @@ export default function ContactPage() {
               transition={{ duration: 0.6, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
               className="lg:col-span-3"
             >
-              <div className="bg-white border border-gray-100 rounded shadow-sm p-10">
+              <div className="bg-white border border-gray-100 rounded shadow-sm p-6 md:p-10">
                 {submitted ? (
-                  <div className="text-center py-12">
-                    <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
-                      <CheckCircle2 className="text-primary" size={36} />
+                  <div className="text-center py-10 md:py-12">
+                    <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-5 md:mb-6">
+                      <CheckCircle2 className="text-primary" size={32} />
                     </div>
-                    <h3 className="text-2xl font-bold text-foreground mb-3">Message Received</h3>
-                    <p className="text-muted-foreground font-light max-w-sm mx-auto">
+                    <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3">Message Received</h3>
+                    <p className="text-muted-foreground font-light max-w-sm mx-auto text-sm md:text-base">
                       Thank you for reaching out. A member of our team will contact you within 1 business day. For urgent requirements, please call us directly.
                     </p>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-6">
+                  <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
                     <div>
                       <p className="text-primary text-sm font-bold tracking-[0.1em] uppercase mb-1">Request a Quote or Consultation</p>
-                      <p className="text-muted-foreground text-sm font-light">All fields marked * are required.</p>
+                      <p className="text-muted-foreground text-xs md:text-sm font-light">All fields marked * are required.</p>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
                       <div>
                         <label className="block text-sm font-medium text-foreground mb-2">Full Name *</label>
                         <input
@@ -180,7 +180,7 @@ export default function ContactPage() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
                       <div>
                         <label className="block text-sm font-medium text-foreground mb-2">Work Email *</label>
                         <input
@@ -227,7 +227,7 @@ export default function ContactPage() {
                       <label className="block text-sm font-medium text-foreground mb-2">Message / Requirements</label>
                       <textarea
                         name="message"
-                        rows={5}
+                        rows={4}
                         value={form.message}
                         onChange={handleChange}
                         placeholder="Please describe your IT infrastructure requirements, number of locations, team size, or specific issues you need resolved..."
@@ -257,14 +257,14 @@ export default function ContactPage() {
       </section>
 
       {/* FAQ Strip */}
-      <section className="py-20 bg-white border-t border-gray-100">
+      <section className="py-14 md:py-20 bg-white border-t border-gray-100">
         <div className="container mx-auto px-4 md:px-6 lg:px-8">
-          <motion.div {...fadeUp} className="text-center max-w-2xl mx-auto mb-12">
+          <motion.div {...fadeUp} className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
             <p className="text-primary text-sm font-bold tracking-[0.15em] uppercase mb-3">Common Questions</p>
-            <h2 className="text-3xl font-bold text-foreground">Before You Write to Us</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground">Before You Write to Us</h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto">
             {[
               { q: "How quickly will you respond to my inquiry?", a: "We aim to respond to all general inquiries within 1 business day. For existing AMC clients, our SLA-defined response times apply." },
               { q: "Do you serve businesses outside Maharashtra?", a: "Yes — we have active coverage in 28+ Indian states. Reach out with your location and we'll confirm availability and response timelines." },
@@ -277,9 +277,9 @@ export default function ContactPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-30px" }}
                 transition={{ duration: 0.45, delay: i * 0.08 }}
-                className="bg-[#FAFAF8] border border-gray-100 p-6 rounded"
+                className="bg-[#FAFAF8] border border-gray-100 p-5 md:p-6 rounded"
               >
-                <h3 className="font-semibold text-foreground mb-3 text-sm">{faq.q}</h3>
+                <h3 className="font-semibold text-foreground mb-2 md:mb-3 text-sm">{faq.q}</h3>
                 <p className="text-muted-foreground text-sm font-light leading-relaxed">{faq.a}</p>
               </motion.div>
             ))}

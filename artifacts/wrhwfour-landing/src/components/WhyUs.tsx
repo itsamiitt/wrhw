@@ -39,53 +39,51 @@ const itemVariants = {
 
 export default function WhyUs() {
   return (
-    <section id="why-us" className="py-32 bg-slate-900 relative overflow-hidden">
-      {/* Dot-matrix pattern background */}
-      <div 
+    <section id="why-us" className="py-20 md:py-32 bg-slate-900 relative overflow-hidden">
+      <div
         className="absolute inset-0 z-0 opacity-[0.08]"
         style={{
           backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)',
           backgroundSize: '24px 24px'
         }}
       />
-      
-      {/* Abstract gradients */}
+
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3" />
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-900/10 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/4" />
       </div>
 
       <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col lg:flex-row gap-16 items-start">
-          <motion.div 
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
+          <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
+            viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.65, ease: [0.25, 0.1, 0.25, 1] }}
-            className="lg:w-1/3 sticky top-32"
+            className="lg:w-1/3 lg:sticky lg:top-32"
           >
-            <h2 className="text-sm font-bold tracking-[0.1em] text-primary uppercase mb-4">Why Choose WRHWFOUR</h2>
-            <h3 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-[1.1] tracking-tight">
+            <h2 className="text-sm font-bold tracking-[0.1em] text-primary uppercase mb-3">Why Choose WRHWFOUR</h2>
+            <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-5 md:mb-6 leading-[1.1] tracking-tight">
               The Corporate Standard for IT Excellence
             </h3>
-            <p className="text-slate-400 text-lg leading-relaxed mb-8 font-light">
+            <p className="text-slate-400 text-base md:text-lg leading-relaxed mb-6 md:mb-8 font-light">
               We don't just supply hardware; we engineer reliability. Our strategic approach to IT infrastructure management ensures your technology investments yield maximum operational continuity.
             </p>
             <motion.button
               whileHover={{ scale: 1.02 }}
               onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-              className="px-8 py-4 border border-primary/50 text-primary hover:bg-primary hover:text-white rounded font-semibold transition-all duration-300"
+              className="w-full sm:w-auto px-7 md:px-8 py-4 border border-primary/50 text-primary hover:bg-primary hover:text-white rounded font-semibold transition-all duration-300 text-center"
             >
               Discuss Your Requirements
             </motion.button>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            className="lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-6"
+            viewport={{ once: true, margin: "-60px" }}
+            className="lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6"
           >
             {reasons.map((reason, index) => {
               const Icon = reason.icon;
@@ -94,19 +92,17 @@ export default function WhyUs() {
                   key={index}
                   variants={itemVariants}
                   whileHover={{ y: -4 }}
-                  className="bg-slate-800/40 backdrop-blur-md border border-slate-700/50 p-8 rounded-lg transition-all duration-300 group border-l-2 border-l-transparent hover:border-l-primary hover:bg-slate-800/60"
+                  className="bg-slate-800/40 backdrop-blur-md border border-slate-700/50 p-6 md:p-8 rounded-lg transition-all duration-300 group border-l-2 border-l-transparent hover:border-l-primary hover:bg-slate-800/60"
                 >
-                  <div className="relative w-14 h-14 mb-8">
-                    {/* Animated copper ring */}
+                  <div className="relative w-12 h-12 md:w-14 md:h-14 mb-6 md:mb-8">
                     <div className="absolute inset-0 rounded-full border border-primary/30 group-hover:scale-125 group-hover:opacity-0 transition-all duration-700" />
                     <div className="absolute inset-0 rounded-full border border-primary/20 group-hover:scale-110 group-hover:opacity-0 transition-all duration-500 delay-100" />
-                    
-                    <div className="w-14 h-14 bg-slate-800 rounded-full flex items-center justify-center text-primary relative z-10 group-hover:bg-primary group-hover:text-white transition-colors duration-300 shadow-lg border border-slate-700">
-                      <Icon size={24} strokeWidth={1.5} />
+                    <div className="w-12 h-12 md:w-14 md:h-14 bg-slate-800 rounded-full flex items-center justify-center text-primary relative z-10 group-hover:bg-primary group-hover:text-white transition-colors duration-300 shadow-lg border border-slate-700">
+                      <Icon size={22} strokeWidth={1.5} />
                     </div>
                   </div>
-                  <h4 className="text-2xl font-bold text-white mb-4 tracking-tight">{reason.title}</h4>
-                  <p className="text-slate-400 leading-relaxed text-base font-light">
+                  <h4 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4 tracking-tight">{reason.title}</h4>
+                  <p className="text-slate-400 leading-relaxed text-sm md:text-base font-light">
                     {reason.description}
                   </p>
                 </motion.div>
@@ -119,27 +115,22 @@ export default function WhyUs() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.65, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-          className="mt-24 border-t border-slate-800 pt-12"
+          className="mt-16 md:mt-24 border-t border-slate-800 pt-10 md:pt-12"
         >
-          <div className="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4 divide-y md:divide-y-0 md:divide-x divide-slate-800">
-            <div className="flex flex-col items-center md:w-1/4 pt-4 md:pt-0">
-              <span className="text-3xl font-bold text-white mb-1">99.9%</span>
-              <span className="text-sm text-slate-500 uppercase tracking-widest">Uptime SLA</span>
-            </div>
-            <div className="flex flex-col items-center md:w-1/4 pt-4 md:pt-0">
-              <span className="text-3xl font-bold text-white mb-1">4hr</span>
-              <span className="text-sm text-slate-500 uppercase tracking-widest">Avg Response</span>
-            </div>
-            <div className="flex flex-col items-center md:w-1/4 pt-4 md:pt-0">
-              <span className="text-3xl font-bold text-white mb-1">28</span>
-              <span className="text-sm text-slate-500 uppercase tracking-widest">States</span>
-            </div>
-            <div className="flex flex-col items-center md:w-1/4 pt-4 md:pt-0">
-              <span className="text-3xl font-bold text-white mb-1">500+</span>
-              <span className="text-sm text-slate-500 uppercase tracking-widest">Deployments</span>
-            </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-4">
+            {[
+              { value: "99.9%", label: "Uptime SLA" },
+              { value: "4hr", label: "Avg Response" },
+              { value: "28", label: "States" },
+              { value: "500+", label: "Deployments" },
+            ].map((item, i) => (
+              <div key={i} className="flex flex-col items-center text-center">
+                <span className="text-2xl md:text-3xl font-bold text-white mb-1">{item.value}</span>
+                <span className="text-xs text-slate-500 uppercase tracking-widest">{item.label}</span>
+              </div>
+            ))}
           </div>
         </motion.div>
       </div>

@@ -34,10 +34,10 @@ function AnimatedCounter({ end, suffix, label }: { end: number; suffix?: string;
 
   return (
     <div ref={ref} className="flex flex-col items-center py-1">
-      <span className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+      <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight">
         {count}{suffix}
       </span>
-      <span className="text-xs text-slate-400 font-medium uppercase tracking-widest mt-1.5">{label}</span>
+      <span className="text-[10px] sm:text-xs text-slate-400 font-medium uppercase tracking-widest mt-1">{label}</span>
     </div>
   );
 }
@@ -80,13 +80,11 @@ export default function Hero() {
             opacity: 0.9,
           }}
         />
-        {/* Bottom fade for grid */}
         <div className="absolute bottom-0 left-0 right-0 h-64 z-20 bg-gradient-to-t from-[#0a1520] to-transparent" />
-        {/* Radial vignette */}
         <div className="absolute inset-0 z-10" style={{ background: 'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, rgba(10,21,32,0.7) 100%)' }} />
       </motion.div>
 
-      {/* Floating copper particles */}
+      {/* Floating copper particles — hidden on very small screens to reduce visual noise */}
       {[
         { left: '8%', top: '22%', size: 'w-1.5 h-1.5', duration: 12 },
         { left: '55%', top: '18%', size: 'w-2 h-2', duration: 9 },
@@ -98,7 +96,7 @@ export default function Hero() {
           key={i}
           animate={{ y: [0, -18, 0], opacity: [0.25, 0.55, 0.25] }}
           transition={{ duration: p.duration, repeat: Infinity, ease: "easeInOut", delay: i * 1.8 }}
-          className={`absolute ${p.size} rounded-full bg-primary z-20`}
+          className={`absolute ${p.size} rounded-full bg-primary z-20 hidden sm:block`}
           style={{ left: p.left, top: p.top, boxShadow: '0 0 12px rgba(212,96,26,0.9), 0 0 32px rgba(212,96,26,0.4)' }}
         />
       ))}
@@ -108,7 +106,7 @@ export default function Hero() {
         style={{ y: contentY, opacity }}
         className="relative z-30 flex-1 flex flex-col"
       >
-        {/* Hero text — centered in upper 2/3 */}
+        {/* Hero text */}
         <div className="flex-1 flex items-center">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-8 md:pt-28 md:pb-10">
             <div className="max-w-5xl mx-auto text-center">
@@ -118,10 +116,10 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
-                className="mb-8"
+                className="mb-6 md:mb-8"
               >
                 <span
-                  className="inline-flex items-center gap-2 py-2 px-5 rounded-full text-white text-xs font-semibold tracking-[0.15em] uppercase shadow-md"
+                  className="inline-flex items-center gap-2 py-2 px-4 sm:px-5 rounded-full text-white text-[11px] sm:text-xs font-semibold tracking-[0.15em] uppercase shadow-md"
                   style={{ background: 'var(--gradient-copper)' }}
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-white/80 animate-pulse" />
@@ -134,10 +132,10 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 28 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.75, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-                className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] tracking-tight mb-6"
+                className="text-[2.4rem] sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] tracking-tight mb-5 md:mb-6"
               >
                 Precision Engineering for
-                <br />
+                <br className="hidden sm:block" />{" "}
                 <span className="relative inline-block mt-1">
                   <span
                     className="text-transparent bg-clip-text"
@@ -149,7 +147,7 @@ export default function Hero() {
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
                     transition={{ duration: 0.9, delay: 1.1, ease: [0.25, 0.1, 0.25, 1] }}
-                    className="absolute -bottom-2 left-0 h-[3px] w-full rounded-full origin-left"
+                    className="absolute -bottom-1 left-0 h-[3px] w-full rounded-full origin-left hidden sm:block"
                     style={{ background: 'var(--gradient-copper)' }}
                   />
                 </span>
@@ -160,7 +158,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
-                className="text-lg md:text-xl text-slate-300/90 mb-10 max-w-2xl mx-auto leading-relaxed font-light"
+                className="text-base sm:text-lg md:text-xl text-slate-300/90 mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed font-light px-2 sm:px-0"
               >
                 Delivering robust hardware solutions, pan-India AMCs, and advanced
                 security networking for Fortune 500 standards.
@@ -171,14 +169,14 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-                className="flex flex-col sm:flex-row items-center justify-center gap-4"
+                className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 px-2 sm:px-0"
               >
                 <motion.button
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.15 }}
                   onClick={scrollToContact}
-                  className="w-full sm:w-auto px-10 py-4 text-white rounded-md font-semibold text-lg transition-all flex items-center justify-center gap-3 group"
+                  className="w-full sm:w-auto px-7 sm:px-10 py-4 text-white rounded-md font-semibold text-base sm:text-lg transition-all flex items-center justify-center gap-3 group"
                   style={{
                     background: 'var(--gradient-copper)',
                     boxShadow: 'var(--shadow-copper-glow)',
@@ -192,7 +190,7 @@ export default function Hero() {
                   whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.15 }}
                   onClick={scrollToServices}
-                  className="w-full sm:w-auto px-10 py-4 bg-white/[0.06] text-white border border-white/[0.12] rounded-md font-semibold text-lg hover:bg-white/[0.1] transition-all backdrop-blur-sm"
+                  className="w-full sm:w-auto px-7 sm:px-10 py-4 bg-white/[0.06] text-white border border-white/[0.12] rounded-md font-semibold text-base sm:text-lg hover:bg-white/[0.1] transition-all backdrop-blur-sm"
                 >
                   Explore Services
                 </motion.button>
@@ -202,15 +200,15 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Stats bar — anchored to bottom */}
+        {/* Stats bar */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.85, ease: [0.25, 0.1, 0.25, 1] }}
-          className="container mx-auto px-4 sm:px-6 lg:px-8 pb-20"
+          className="container mx-auto px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20"
         >
           <div
-            className="grid grid-cols-2 md:grid-cols-4 gap-0 max-w-3xl mx-auto rounded-2xl overflow-hidden"
+            className="grid grid-cols-2 md:grid-cols-4 gap-0 max-w-3xl mx-auto rounded-xl sm:rounded-2xl overflow-hidden"
             style={{
               background: 'rgba(255,255,255,0.07)',
               backdropFilter: 'blur(24px)',
@@ -222,11 +220,11 @@ export default function Hero() {
               { end: 500, suffix: '+', label: 'Corporate Clients' },
               { end: 28, suffix: '+', label: 'States Covered' },
               { end: 24, suffix: '/7', label: 'Support' },
-              { end: 6, suffix: '+', label: 'Years of Expertise' },
+              { end: 6, suffix: '+', label: 'Years Experience' },
             ].map((stat, i) => (
               <div
                 key={i}
-                className={`flex flex-col items-center py-7 px-4 ${i > 0 ? 'border-l border-white/[0.08]' : ''}`}
+                className={`flex flex-col items-center py-5 sm:py-7 px-3 sm:px-4 ${i > 0 ? 'border-l border-white/[0.08]' : ''} ${i === 2 ? 'border-t border-white/[0.08] md:border-t-0' : ''} ${i === 3 ? 'border-t border-white/[0.08] md:border-t-0' : ''}`}
               >
                 <AnimatedCounter end={stat.end} suffix={stat.suffix} label={stat.label} />
               </div>
@@ -240,7 +238,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 cursor-pointer group"
+        className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 z-30 hidden sm:flex flex-col items-center gap-2 cursor-pointer group"
         onClick={scrollToServices}
       >
         <span className="text-[10px] text-slate-500 font-medium tracking-[0.2em] uppercase group-hover:text-slate-300 transition-colors">Scroll</span>
